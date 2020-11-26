@@ -1,0 +1,32 @@
+version: "3.0"
+services:
+  app:
+    build:
+      context: ./services/app/
+    restart: always
+    volumes:
+      - ./services/app/src/:/var/www/html/
+    links:
+      - database
+  
+  webserver:
+    image: nginx:latest
+    volumes:
+      - ./services/webserver/default.conf:/etc/nginx/conf.d/default.conf
+      - ./services/app/src/:/var/www/html/
+    links:
+      - app
+    ports:
+      - 3000:80
+
+  database:
+    image: mariadb:latest
+    volumes:
+      - ${PWD}/.data/mariadb:/var/lib/mysql
+      - ./services/database/database.sql:/docker-entrypoint-initdb.d/database.sql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: LgJG8u3dnGh42zTH
+      MYSQL_DATABASE: immoinc
+      MYSQL_USER: immoinc
+      MYSQL_PASSWORD: LgJG8u3dnGh42zTH
