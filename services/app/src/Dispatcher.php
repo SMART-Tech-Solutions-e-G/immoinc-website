@@ -3,6 +3,7 @@
 require("Config.php");
 require("Database.php");
 require("Endpoints/HomeEndpoint.php");
+require("Endpoints/LoginEndpoint.php");
 
 class Dispatcher
 {
@@ -32,6 +33,9 @@ class Dispatcher
         switch ($path) {
             case "/":
                 $endpoint = new HomeEndpoint();
+                break;
+            case "/login":
+                $endpoint = new LoginEndpoint();
                 break;
         }
 
