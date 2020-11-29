@@ -1,6 +1,6 @@
 <?php
 
-require("HTMLEndpoint.php");
+require_once("HTMLEndpoint.php");
 
 class HomeEndpoint extends HTMLEndpoint
 {
@@ -9,3 +9,5 @@ class HomeEndpoint extends HTMLEndpoint
         echo "Hello World!";
     }
 }
+
+?>
