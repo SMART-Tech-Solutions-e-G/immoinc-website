@@ -30,14 +30,19 @@ class StartEndpoint extends HTMLEndpoint
 
         <form action="" method="get">
             Jetzt nach Ihrer Traumimmobilie suchen!
-            <select name="Standort">
-
+            <select id="Place" name="standort">
                 <?php
-
-                foreach ($array_real_estate as $real_estate) {
+                if (!empty($array_real_estate)) {
+                    foreach ($array_real_estate as $real_estate) {
                 ?>
-                    <option value=" <?php echo $real_estate['address_city'] ?> "> <?php echo $real_estate['address_city'] ?> </option> ;
+
+                        <option value="<?php
+                                        echo $real_estate['address_city'] ?>" <?php if ($_GET['standort'] == $real_estate['address_city'])
+                                                                                    echo 'selected' ?>>
+                            <?php echo $real_estate['address_city']
+                            ?> </option>;
                 <?php
+                    }
                 }
                 ?>
             </select>
@@ -51,12 +56,13 @@ class StartEndpoint extends HTMLEndpoint
 
         if (isset($_GET['suchbegriff']) and trim($_GET['suchbegriff']) != '') {
             $suchbegriff = trim($_GET['suchbegriff']);
-            //  echo "<p>Gesucht wird nach: <b>$suchbegriff</b></p>";
+
             $suche_nach = "%{$suchbegriff}%";
 
-            $suche = $connection->prepare("SELECT id, address_street, address_housenumber FROM real_estate WHERE living_space LIKE ?");
+            $suche = $connection->prepare("SELECT id, address_street, address_housenumber FROM real_estate WHERE living_space LIKE ? AND address_city = ?");
 
             $suche->bindParam(1, $suche_nach);
+            $suche->bindParam(2, $_GET['standort']);
 
             $suche->execute();
 
@@ -65,7 +71,6 @@ class StartEndpoint extends HTMLEndpoint
             while ($row = $suche->fetch()) {
                 array_push($daten, $row);
             }
-
         ?>
             <style>
                 table,
