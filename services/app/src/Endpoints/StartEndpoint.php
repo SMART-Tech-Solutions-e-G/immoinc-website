@@ -26,7 +26,7 @@ class StartEndpoint extends HTMLEndpoint
         while ($row = $query->fetch()) {
             array_push($array_real_estate, $row);
         }
-        ?>
+?>
 
         <form action="" method="get">
             Jetzt nach Ihrer Traumimmobilie suchen!
@@ -42,10 +42,62 @@ class StartEndpoint extends HTMLEndpoint
                 ?>
             </select>
             <input type="hidden" name="aktion" value="suchen">
-            <input type="text" name="suchbegriff" id="suchbegriff">
-            <input type="submit" value="suchen">
+            <input type="text" name="suchbegriff" id="suchbegriff" placeholder="Gewünschte Fläche">
+            <input type="submit" value="Suchen">
         </form>
 
         <?php
+
+
+        if (isset($_GET['suchbegriff']) and trim($_GET['suchbegriff']) != '') {
+            $suchbegriff = trim($_GET['suchbegriff']);
+            //  echo "<p>Gesucht wird nach: <b>$suchbegriff</b></p>";
+            $suche_nach = "%{$suchbegriff}%";
+
+            $suche = $connection->prepare("SELECT id, address_street, address_housenumber FROM real_estate WHERE living_space LIKE ?");
+
+            $suche->bindParam(1, $suche_nach);
+
+            $suche->execute();
+
+            $daten = [];
+
+            while ($row = $suche->fetch()) {
+                array_push($daten, $row);
+            }
+
+        ?>
+            <style>
+                table,
+                th,
+                td {
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                }
+            </style>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Strasse</th>
+                        <th>Hausnummer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($daten as $inhalt) {
+                    ?>
+                        <tr>
+                            <td><?php echo $inhalt['id'] ?></td>
+                            <td><?php echo $inhalt['address_street'] ?></td>
+                            <td><?php echo $inhalt['address_housenumber']; ?></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+            </table>
+<?php
+        }
     }
-}     
+}
