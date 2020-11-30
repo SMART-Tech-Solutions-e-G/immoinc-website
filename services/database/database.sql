@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.7
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Nov 25, 2020 at 08:36 PM
--- Server version: 10.3.25-MariaDB-0+deb10u1
--- PHP Version: 7.3.19-1~deb10u1
+-- Host: database
+-- Generation Time: Nov 29, 2020 at 07:49 PM
+-- Server version: 10.5.8-MariaDB-1:10.5.8+maria~focal
+-- PHP Version: 7.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -59,7 +58,9 @@ CREATE TABLE `real_estate` (
   `living_space` decimal(13,2) NOT NULL,
   `room_count` int(11) NOT NULL,
   `free_from` date DEFAULT NULL,
-  `description` longtext DEFAULT NULL
+  `description` longtext DEFAULT NULL,
+  `creation_date` datetime NOT NULL,
+  `type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -102,6 +103,13 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `password`) VALUES
+(1, 'Test', 'Test', 'test@test.com', '1234');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -123,7 +131,8 @@ ALTER TABLE `house`
 -- Indexes for table `real_estate`
 --
 ALTER TABLE `real_estate`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `type` (`type`);
 
 --
 -- Indexes for table `real_estate_announcement`
@@ -171,7 +180,7 @@ ALTER TABLE `real_estate_image`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
