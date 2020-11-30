@@ -1,9 +1,15 @@
 <?php
 
+session_start();
+
 require("Config.php");
 require("Database.php");
-require("Endpoints/HomeEndpoint.php");
+require("Endpoints/HTMLEndpoint.php");
 require("Endpoints/StartEndpoint.php");
+require("Endpoints/NotFoundEndpoint.php");
+require("Endpoints/LoginEndpoint.php");
+require("Endpoints/HandleLoginEndpoint.php");
+
 
 class Dispatcher
 {
@@ -30,21 +36,31 @@ class Dispatcher
 
         $endpoint = null;
 
-        switch ($path) {
-            case "/":
-                $endpoint = new HomeEndpoint();
-                break;
-        }
-        switch ($path) {
-            case "/start":
-                $endpoint = new StartEndpoint();
-                break;
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            switch ($path) {
+                case "/login":
+                    $endpoint = new LoginEndpoint();
+                    break;
+                case "/":
+                    $endpoint = new StartEndpoint();
+                    break;
+            }
         }
 
-        if($endpoint != null) $endpoint->render();
-        else {
-            // File not found - replace with custom 404 page
-            echo "Endpoint not found";
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            switch ($path) {
+                case "/login":
+                    $endpoint = new HandleLoginEndpoint();
+                    break;
+            }
         }
+
+        if ($endpoint == null) {
+            http_response_code(404);
+            $endpoint = new NotFoundEndpoint();
+        }
+
+        if ($endpoint instanceof HTMLEndpoint) $endpoint->_render();
+        else if ($endpoint instanceof Endpoint) $endpoint->render();
     }
 }
