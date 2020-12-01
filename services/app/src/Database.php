@@ -42,7 +42,7 @@ class Database
             $user->setEmail($row["email"]);
             $user->setPassword($row["password"]);
 
-            if ($user->getPassword() != $password) throw new Exception("Password mismatch");
+            if (password_verify($password, $user->getPassword()) === false) throw new Exception("Password mismatch");
 
             return $user;
         } else throw new Exception("Could not find user");
