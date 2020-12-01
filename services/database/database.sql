@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database
--- Generation Time: Nov 29, 2020 at 07:49 PM
+-- Generation Time: Dec 01, 2020 at 06:01 PM
 -- Server version: 10.5.8-MariaDB-1:10.5.8+maria~focal
 -- PHP Version: 7.4.12
 
@@ -63,6 +63,13 @@ CREATE TABLE `real_estate` (
   `type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `real_estate`
+--
+
+INSERT INTO `real_estate` (`id`, `address_street`, `address_housenumber`, `address_zip_code`, `address_city`, `living_space`, `room_count`, `free_from`, `description`, `creation_date`, `type`) VALUES
+(1, 'Test', '20', '2992', 'Hamburg', '727.00', 2, NULL, NULL, '2020-11-26 10:53:35', 'appartment');
+
 -- --------------------------------------------------------
 
 --
@@ -99,7 +106,7 @@ CREATE TABLE `user` (
   `firstname` varchar(64) DEFAULT NULL,
   `lastname` varchar(64) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(32) NOT NULL
+  `password` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -107,7 +114,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `password`) VALUES
-(1, 'Test', 'Test', 'test@test.com', '1234');
+(1, 'Test', 'Test', 'test@test.com', '$2y$10$AqVRrigmSdnop8iQu/YzQu1JQ64xecCxd6ZlwqBt/b2OHwkMKUjLq');
 
 --
 -- Indexes for dumped tables
@@ -162,7 +169,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `real_estate`
 --
 ALTER TABLE `real_estate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `real_estate_announcement`

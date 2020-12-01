@@ -6,6 +6,10 @@ class LoginEndpoint extends HTMLEndpoint
 {
     public function render()
     {
+
+        $email = "";
+
+        if (isset($_GET["email"])) $email = htmlspecialchars($_GET["email"]);
 ?>
         <div class="login">
             <div class="login-form-wrapper">
@@ -13,7 +17,7 @@ class LoginEndpoint extends HTMLEndpoint
                 <br>
                 <form method="POST">
                     <div class="text-field">
-                        <input id="login-email" type="email" name="email" required placeholder=" ">
+                        <input id="login-email" type="email" name="email" required placeholder=" " value="<?php echo $email ?>">
                         <label for="login-email">E-Mail</label>
                     </div>
                     <div class="text-field">
