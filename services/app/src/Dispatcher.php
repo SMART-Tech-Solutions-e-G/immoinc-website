@@ -44,6 +44,9 @@ class Dispatcher
                 case "/":
                     $endpoint = new StartEndpoint();
                     break;
+                case "/results":
+                    $endpoint = new HTMLEndpointStart();
+                    break;
             }
         }
 
