@@ -5,10 +5,12 @@ session_start();
 require("Config.php");
 require("Database.php");
 require("Endpoints/HTMLEndpoint.php");
-require("Endpoints/HomeEndpoint.php");
+require("Endpoints/StartEndpoint.php");
 require("Endpoints/NotFoundEndpoint.php");
 require("Endpoints/LoginEndpoint.php");
 require("Endpoints/HandleLoginEndpoint.php");
+require("Endpoints/ImprintEndpoint.php");
+
 
 
 class Dispatcher
@@ -38,11 +40,14 @@ class Dispatcher
 
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             switch ($path) {
-                case "/":
-                    $endpoint = new HomeEndpoint();
-                    break;
                 case "/login":
                     $endpoint = new LoginEndpoint();
+                    break;
+                case "/imprint":
+                    $endpoint = new ImprintEndpoint();
+                    break;
+                case "/":
+                    $endpoint = new StartEndpoint();
                     break;
             }
         }
