@@ -17,11 +17,11 @@ class LoginEndpoint extends HTMLEndpoint
                 <p>Mitarbeiter-Login für die Immo Inc.</p>
                 <form method="POST">
                     <div class="text-field">
-                        <input id="login-email" type="email" name="email" required placeholder=" " value="<?php echo $email ?>">
+                        <input class="input" id="login-email" type="email" name="email" required placeholder=" " value="<?php echo $email ?>">
                         <label for="login-email">E-Mail</label>
                     </div>
                     <div class="text-field">
-                        <input type="password" name="password" required placeholder=" ">
+                        <input class="input" type="password" name="password" required placeholder=" ">
                         <label for="login-email">Passwort</label>
                     </div>
                     <br><br>

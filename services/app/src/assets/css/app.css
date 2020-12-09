@@ -32,7 +32,6 @@ h4 {
 .header .logo {
     padding-top: 18px;
     margin-left: 20px;
-    height: var(--header-height);
     display: inline-block;
     vertical-align: middle;
 }
@@ -102,10 +101,12 @@ h4 {
 
 .content > .wrapper > .slim > .slim-wrapper {
     padding: 14px 40px 14px 40px;
+    word-wrap: break-word;
 }
 
 .content > .wrapper > .slim {
     width: 100%;
+    min-height: var(--content-min-height);
     max-width: 1000px;
     margin-left: 50%;
     transform: translateX(-50%);
@@ -205,11 +206,20 @@ h4 {
 .text-field {
     border: 2px solid #ccc;
     border-radius: 5px;
-    margin: 15px;
+    margin: 10px 3px 10px 3px;
     position: relative;
 }
 
-.text-field > input {
+.text-field.inline {
+    display: inline-block;
+}
+
+.text-field.inline > .input {
+    width: auto;
+}
+
+.text-field > .input,
+.text-field > .input {
     margin-top: 15px;
     width: 100%;
     border: none;
@@ -229,9 +239,9 @@ h4 {
     transition: 0.2s transform;
 }
 
-.text-field > input:focus ~ label,
-.text-field > input:not(:placeholder-shown):invalid ~ label,
-.text-field > input:valid ~ label {
+.text-field > .input:focus ~ label,
+.text-field > .input:not(:placeholder-shown):invalid ~ label,
+.text-field > .input:valid ~ label {
     transform-origin: left;
     transform: translateY(-10px) scale(0.75);
     color: #444;
