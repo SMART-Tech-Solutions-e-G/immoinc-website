@@ -1,6 +1,6 @@
 <?php
 
-require("Endpoint.php");
+require_once("Endpoint.php");
 
 abstract class HTMLEndpoint extends Endpoint
 {
