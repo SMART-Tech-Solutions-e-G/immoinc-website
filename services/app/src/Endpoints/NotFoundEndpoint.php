@@ -7,7 +7,14 @@ class NotFoundEndpoint extends HTMLEndpoint
     public function render()
     {
 ?>
-        <h1>Seite konnte nicht gefunden werden</h1>
+        <div class="wrapper">
+            <div class="slim">
+                <div class="slim-wrapper">
+                    <h1>404 Fehler</h1>
+                    <p>Die angeforderte Seite konnte nicht gefunden werden.</p>
+                </div>
+            </div>
+        </div>
 <?php
     }
 }

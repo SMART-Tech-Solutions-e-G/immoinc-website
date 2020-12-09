@@ -9,6 +9,8 @@ require("Endpoints/StartEndpoint.php");
 require("Endpoints/NotFoundEndpoint.php");
 require("Endpoints/LoginEndpoint.php");
 require("Endpoints/HandleLoginEndpoint.php");
+require("Endpoints/ImprintEndpoint.php");
+
 
 
 class Dispatcher
@@ -40,6 +42,9 @@ class Dispatcher
             switch ($path) {
                 case "/login":
                     $endpoint = new LoginEndpoint();
+                    break;
+                case "/imprint":
+                    $endpoint = new ImprintEndpoint();
                     break;
                 case "/":
                     $endpoint = new StartEndpoint();
