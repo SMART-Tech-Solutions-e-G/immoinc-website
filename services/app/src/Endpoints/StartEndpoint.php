@@ -30,19 +30,25 @@ class StartEndpoint extends HTMLEndpoint
 
         <form action="" method="get">
             Jetzt nach Ihrer Traumimmobilie suchen!
-            <select name="Standort">
+            <div class="text-field inline">
+                <select class="input" name="city" id="test">
 
-                <?php
+                    <?php
 
-                foreach ($array_real_estate as $real_estate) {
-                ?>
-                    <option value=" <?php echo $real_estate['address_city'] ?> "> <?php echo $real_estate['address_city'] ?> </option> ;
-                <?php
-                }
-                ?>
-            </select>
+                    foreach ($array_real_estate as $real_estate) {
+                    ?>
+                        <option value=" <?php echo $real_estate['address_city'] ?> "> <?php echo $real_estate['address_city'] ?> </option> ;
+                    <?php
+                    }
+                    ?>
+                </select>
+                <label for="test">Stadt</label>
+            </div>
             <input type="hidden" name="aktion" value="suchen">
-            <input type="text" name="suchbegriff" id="suchbegriff" placeholder="Gewünschte Fläche">
+            <div class="text-field inline">
+                <input class="input" type="text" name="suchbegriff" id="suchbegriff" placeholder=" " required>
+                <label for="suchbegriff">Gewünschte fläche</label>
+            </div>
             <input type="submit" value="Suchen">
         </form>
 
