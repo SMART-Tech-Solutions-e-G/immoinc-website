@@ -1,20 +1,24 @@
 .start .background {
-   background-image: url("/assets/images/start-background-verlauf.png");
+  margin-bottom: 100px;
+  background-image: url("/assets/images/start-background-verlauf.png");
    background-size: cover;
     width: 100%;
     height: 550px;
-    position: absolute;
 }
 
-.form {
+.start .form {
     background-color: #fff;
     border-radius: 15px;
     padding: 20px;
     box-shadow: var(--box-shadow);
-    margin: 500px auto;
     max-width: 800px;
+    width: 100%;
+    position: absolute;
+    margin-top: 500px;
+    margin-left: 50%;
+    transform: translateX(-50%);
 }
 
-  .box {
+ .start .box {
     float: left;
   }

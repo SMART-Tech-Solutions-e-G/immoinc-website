@@ -63,6 +63,7 @@ class StartEndpoint extends HTMLEndpoint
                 </form>
             </div>
         </div>
-<?php
+    </div>
+    <?php
     }
 }
