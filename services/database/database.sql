@@ -57,7 +57,6 @@ CREATE TABLE `real_estate` (
   `address_city` varchar(45) NOT NULL,
   `living_space` decimal(13,2) NOT NULL,
   `room_count` int(11) NOT NULL,
-  `free_from` date DEFAULT NULL,
   `description` longtext DEFAULT NULL,
   `creation_date` datetime NOT NULL,
   `type` varchar(20) NOT NULL
@@ -66,9 +65,6 @@ CREATE TABLE `real_estate` (
 --
 -- Dumping data for table `real_estate`
 --
-
-INSERT INTO `real_estate` (`id`, `address_street`, `address_housenumber`, `address_zip_code`, `address_city`, `living_space`, `room_count`, `free_from`, `description`, `creation_date`, `type`) VALUES
-(1, 'Test', '20', '2992', 'Hamburg', '727.00', 2, NULL, NULL, '2020-11-26 10:53:35', 'appartment');
 
 -- --------------------------------------------------------
 
@@ -80,6 +76,7 @@ CREATE TABLE `real_estate_announcement` (
   `id` int(11) NOT NULL,
   `ownership_level` int(11) NOT NULL,
   `price` decimal(13,4) NOT NULL,
+  `free_from` date DEFAULT NULL,
   `real_estate_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -221,3 +218,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
