@@ -99,7 +99,7 @@ class StartEndpoint extends HTMLEndpoint
                                         echo "Einfamilienhaus";
                                     } else {
                                         $roomnum = $real_estate["room_count"];
-                                        $appstring = " Zimmerwohnung";
+                                        $appstring = " Zimmer Wohnung";
 
                                         echo "$roomnum$appstring";
                                     }
