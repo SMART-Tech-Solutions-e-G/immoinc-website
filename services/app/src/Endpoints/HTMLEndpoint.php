@@ -52,6 +52,12 @@ abstract class HTMLEndpoint extends Endpoint
                         try {
                             if (!isset($_SESSION["userId"])) throw new Exception("Not logged in");
                             $user = Database::getInstance()->getUser($_SESSION["userId"]);
+
+                        ?>
+                            <a href="/real-estate-announcements" class="link colorful">
+                                <span class="name">Immobilienanzeigen</span>
+                            </a>
+                        <?php
                         } catch (Exception $err) {
                         ?>
                             <a href="/login" class="link colorful">
