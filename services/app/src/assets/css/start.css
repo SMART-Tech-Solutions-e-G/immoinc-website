@@ -1,24 +1,57 @@
 .start .background {
   margin-bottom: 100px;
   background-image: url("/assets/images/start-background-verlauf.png");
-   background-size: cover;
-    width: 100%;
-    height: 550px;
+  background-size: cover;
+  width: 100%;
+  height: 550px;
 }
 
 .start .form {
-    background-color: #fff;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: var(--box-shadow);
-    max-width: 800px;
-    width: 100%;
-    position: absolute;
-    margin-top: 500px;
-    margin-left: 50%;
-    transform: translateX(-50%);
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: var(--box-shadow);
+  max-width: 800px;
+  width: 100%;
+  position: absolute;
+  margin-top: 500px;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 
- .start .box {
-    float: left;
-  }
+.start .box {
+  float: left;
+ }
+
+.body {
+  background-image: url("/assets/images/bg.png");
+  background-size: cover;
+  width: 100%;
+  height: 900px;
+  z-index: -100;
+}
+
+.d1 {
+  color: black;
+  font-weight: bold;
+  font-size: 35px;
+  margin-left: 100px;
+  float: left;
+  margin-top: 26px;
+}
+
+.grid { 
+  margin-top: 500px;
+  box-shadow: var(--box-shadow);
+  border-radius: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
+  position: absolute;
+  width: 100%;
+  height: 900px;
+}
+
+.start .grid .wrapper {
+  background-color: #fff;
+}

@@ -4,13 +4,30 @@ class StartEndpoint extends HTMLEndpoint
     public function render()
     {
         $connection = Database::getInstance()->getConnection();
+
         $query = $connection->prepare("SELECT DISTINCT address_city FROM real_estate");
+
         $query->execute();
+
         $array_real_estate = [];
 
         while ($row = $query->fetch()) {
             array_push($array_real_estate, $row);
         }
+
+        $query = $connection->prepare("SELECT living_space, type, address_city, 
+        address_street, address_housenumber, address_zip_code, price, room_count, free_from 
+        FROM real_estate_announcement INNER JOIN real_estate 
+        ON real_estate_announcement.real_estate_id=real_estate.id");
+
+        $query->execute();
+
+        $real_estates = [];
+
+        while ($row = $query->fetch()) {
+            array_push($real_estates, $row);
+        }
+
 ?>
         <div class="start">
             <div class="background">
@@ -62,8 +79,34 @@ class StartEndpoint extends HTMLEndpoint
                     </button>
                 </form>
             </div>
+            <div class="body">
+                <div class="d1">Unsere Neuheiten</div>
+                    <div class="grid">
+                        <?php
+                        foreach ($real_estates as $real_estate) {
+                        ?>
+                            <div >
+                                <div class="wrapper">
+                                    <p class="address">
+                                        <?php echo $real_estate["address_street"] ?>
+                                        <?php echo $real_estate["address_housenumber"] ?>,
+                                        <?php echo $real_estate["address_zip_code"] ?>
+                                        <?php echo $real_estate["address_city"] ?>
+                                    </p>
+                                    <p class="room-count"><?php echo $real_estate["room_count"] ?></p>
+                                    <p class="free_from"><?php if ($real_estate["free_from"] != null) echo date("d.m.Y", strtotime($real_estate["free_from"])) ?></p>
+                                    <p class="living-space"><?php echo $real_estate["living_space"] ?> m²</p>
+                                    <p class="price"><?php echo $real_estate["price"] ?> €</p>
+                                </div>
+                            </div>
+                        <?php
+                        }
+                        ?>
+                    </div>
+                </div>
         </div>
-    </div>
-    <?php
+        </div>
+        </div>
+<?php
     }
 }
