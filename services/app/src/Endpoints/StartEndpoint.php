@@ -15,7 +15,7 @@ class StartEndpoint extends HTMLEndpoint
             array_push($array_real_estate, $row);
         }
 
-        $query = $connection->prepare("SELECT living_space, type, address_city, 
+        $query = $connection->prepare("SELECT real_estate_announcement.id AS id, living_space, type, address_city, 
         address_street, address_housenumber, address_zip_code, price, room_count, free_from 
         FROM real_estate_announcement INNER JOIN real_estate 
         ON real_estate_announcement.real_estate_id=real_estate.id");
@@ -84,19 +84,35 @@ class StartEndpoint extends HTMLEndpoint
                     <div class="grid">
                         <?php
                         foreach ($real_estates as $real_estate) {
+                            $real_estate_announcement = Database::getInstance()->getRealEstateAnnouncement(intval($real_estate["id"]));
+                            
+                         //   var_dump($real_estate_announcement);
+
+                            
                         ?>
                             <div >
                                 <div class="wrapper">
-                                    <p class="address">
-                                        <?php echo $real_estate["address_street"] ?>
-                                        <?php echo $real_estate["address_housenumber"] ?>,
-                                        <?php echo $real_estate["address_zip_code"] ?>
+                                    <img class="img" src="<?php echo $real_estate_announcement->getRealEstate()->getImages()[0]->getPath()?>"/>
+                                    <div class="t1"><?php 
+                                    
+                                    if($real_estate["type"] == "house") {
+                                        echo "Einfamilienhaus";
+                                    } else {
+                                        $roomnum = $real_estate["room_count"];
+                                        $appstring = " Zimmerwohnung";
+
+                                        echo "$roomnum$appstring";
+                                    }
+                                    ?></div>
+                                    <div class="real-estates-list">
+                                    <div class="person"><img class="person" src="..\assets\images\person.png" alt="Person"></div>
+                                    <div class="address">
                                         <?php echo $real_estate["address_city"] ?>
-                                    </p>
-                                    <p class="room-count"><?php echo $real_estate["room_count"] ?></p>
-                                    <p class="free_from"><?php if ($real_estate["free_from"] != null) echo date("d.m.Y", strtotime($real_estate["free_from"])) ?></p>
-                                    <p class="living-space"><?php echo $real_estate["living_space"] ?> m²</p>
-                                    <p class="price"><?php echo $real_estate["price"] ?> €</p>
+                                </div>
+                                    <div class="location"><img class="location" src="..\assets\images\location.png" alt="Person"></div>
+                                    <div class="living-space"><?php echo number_format($real_estate["living_space"]) ?> m² Wohnfläche</div>
+                                    <div class="price">€ <?php echo number_format($real_estate["price"]) ?></div>
+                                </div>
                                 </div>
                             </div>
                         <?php
