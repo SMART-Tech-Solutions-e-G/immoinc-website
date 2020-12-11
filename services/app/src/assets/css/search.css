@@ -1,0 +1,33 @@
+.search > .real-estates-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 25px;
+}
+
+.search > .real-estates-list > .real-estate {
+    box-shadow: var(--box-shadow);
+    border-radius: 15px;
+}
+
+.search > .real-estates-list > .real-estate > .wrapper {
+    padding: 20px;
+}
+
+.search > .filters .button {
+    background-color: rgb(var(--accent-color));
+    display: inline-block;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.search > .filters .button > .name {
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.search > .filters .button > .icon {
+    vertical-align: middle;
+}
