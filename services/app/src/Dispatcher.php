@@ -9,6 +9,7 @@ require("Endpoints/StartEndpoint.php");
 require("Endpoints/NotFoundEndpoint.php");
 require("Endpoints/LoginEndpoint.php");
 require("Endpoints/HandleLoginEndpoint.php");
+require("Endpoints/DetailansichtEndpoint.php");
 require("Endpoints/ImprintEndpoint.php");
 require("Endpoints/SearchEndpoint.php");
 require("Endpoints/EditRealEstateAnnouncementEndpoint.php");
@@ -58,8 +59,8 @@ class Dispatcher
                 case "/":
                     $endpoint = new StartEndpoint();
                     break;
-                case "/results":
-                    $endpoint = new HTMLEndpointStart();
+                case "/detailansicht":
+                    $endpoint = new DetailansichtEndpoint();
                     break;
                 case "/real-estate-announcements/edit":
                     $endpoint = new EditRealEstateAnnouncementEndpoint();
