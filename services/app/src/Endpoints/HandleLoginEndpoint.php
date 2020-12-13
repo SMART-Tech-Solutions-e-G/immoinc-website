@@ -15,7 +15,7 @@ class HandleLoginEndpoint extends Endpoint
         try {
             $user = Database::getInstance()->loginUser($email, $password);
             $_SESSION["userId"] = $user->getId();
-            header("Location: /admin/immolist");
+            header("Location: /real-estate-announcements");
         } catch (Exception $err) {
             header("Location: /login?error&email=" . urlencode($email));
         }
