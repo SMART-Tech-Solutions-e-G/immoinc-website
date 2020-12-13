@@ -23,7 +23,7 @@ services:
   database:
     image: mariadb:latest
     volumes:
-      - ${PWD}/.data/mariadb:/var/lib/mysql
+      - ./.data/mariadb:/var/lib/mysql
       - ./services/database/database.sql:/docker-entrypoint-initdb.d/database.sql
     restart: always
     environment:

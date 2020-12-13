@@ -9,7 +9,7 @@ require("Endpoints/StartEndpoint.php");
 require("Endpoints/NotFoundEndpoint.php");
 require("Endpoints/LoginEndpoint.php");
 require("Endpoints/HandleLoginEndpoint.php");
-
+require("Endpoints/AdminEndpoint.php");
 
 class Dispatcher
 {
@@ -44,6 +44,10 @@ class Dispatcher
                 case "/":
                     $endpoint = new StartEndpoint();
                     break;
+                case "/admin/immolist":
+                    $endpoint = new AdminEndpoint();
+                    break;
+                
             }
         }
 
