@@ -42,16 +42,95 @@
 
 .grid { 
   margin-top: 500px;
-  box-shadow: var(--box-shadow);
   border-radius: 15px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 25px;
-  position: absolute;
   width: 100%;
   height: 900px;
+  margin-bottom: 100px;
 }
 
 .start .grid .wrapper {
+  margin-left: 100px;
+  margin-top: 250px;
   background-color: #fff;
+  padding: 20px;
+  box-shadow: var(--box-shadow);
+  border-radius: 20px;
+  width: 390px;
+  height: 270px;
+}
+
+.start .grid .wrapper .img {
+  margin-top: -50px;
+  margin-left: -20px;
+  width: 430px; 
+  height: 250px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+
+.start .grid .wrapper .t1 {
+  margin-top: -40px;
+  margin-left: 10px;
+  width: 430px; 
+  height: 250px;
+  position: absolute;
+  color: #fff;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.start .grid .wrapper .real-estates-list {
+  font-weight: bold;
+  display: grid; 
+  grid-template-rows: 50px 50px; 
+  grid-template-columns: 10% 45% 45%; 
+}
+
+.start .grid .wrapper .real-estates-list .person {
+  grid-column-start:1; 
+  grid-column-end:2; 
+  grid-row-start:1; 
+  grid-row-end:2; 
+  width: 20px;
+  height: 20px;
+  margin: 8px 10px;
+}
+
+.start .grid .wrapper .real-estates-list .living-space {
+  grid-column-start:2; 
+  grid-column-end:3; 
+  grid-row-start:1; 
+  grid-row-end:2; 
+  margin: 15px 10px;
+}
+
+.start .grid .wrapper .real-estates-list .location {
+  grid-column-start:1; 
+  grid-column-end:2; 
+  grid-row-start:2; 
+  grid-row-end:3; 
+  width: 20px;
+  height: 20px;
+  margin: -2px 10px;
+}
+
+.start .grid .wrapper .real-estates-list .address {
+  grid-column-start:2; 
+  grid-column-end:3; 
+  grid-row-start:2; 
+  grid-row-end:3; 
+  margin: -5px 10px;
+}
+
+
+.start .grid .wrapper .real-estates-list .price {
+  grid-column-start:3; 
+  grid-column-end:4; 
+  grid-row-start:1; 
+  grid-row-end:3;
+  margin: 20px auto;
+  font-size: xx-large;
 }
