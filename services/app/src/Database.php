@@ -156,7 +156,7 @@ class Database
         if ($realEstateAnnouncement->getRealEstate() instanceof House) {
             $type = "house";
         } else if ($realEstateAnnouncement->getRealEstate() instanceof Appartment) {
-            $type = "apartment";
+            $type = "appartment";
         }
 
         $query = $this->connection->prepare("INSERT INTO real_estate (address_street, address_housenumber, address_zip_code, address_city, living_space, room_count, type, description, creation_date) VALUES(:address_street, :address_housenumber, :address_zip_code, :address_city, :living_space, :room_count, :type, :description, NOW())");
