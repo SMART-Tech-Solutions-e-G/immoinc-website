@@ -73,6 +73,11 @@ class AdminEndpoint extends HTMLEndpoint
                             ?>
                         </tbody>
                     </table>
+                    <a href="/real-estate-announcements/create">
+                        <div class="button-black">
+                            <input value="Immobilie erstellen">
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
