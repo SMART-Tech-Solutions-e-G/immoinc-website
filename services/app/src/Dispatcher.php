@@ -18,6 +18,7 @@ require("Endpoints/CreateRealEstateAnnouncementEndpoint.php");
 require("Endpoints/HandleCreateRealEstateAnnouncementEndpoint.php");
 require("Endpoints/UploadRealEstateImage.php");
 require("Endpoints/DeleteRealEstateImage.php");
+require("Endpoints/AdminEndpoint.php");
 
 
 class Dispatcher
@@ -67,6 +68,9 @@ class Dispatcher
                     break;
                 case "/real-estate-announcements/create":
                     $endpoint = new CreateRealEstateAnnouncementEndpoint();
+                    break;
+                case "/real-estate-announcements":
+                    $endpoint = new AdminEndpoint();
                     break;
             }
         }
