@@ -1,24 +1,23 @@
 .login {
     background-image: url("/assets/images/login-background.svg");
     background-size: cover;
-    width: 100%;
+    padding: 10px;
     height: var(--content-min-height);
 }
 
 .login > .login-form-wrapper {
     margin: auto auto;
     background-color: #fff;
-    height: 300px;
-    width: 400px;
-    border-radius: 20px;
-    border: 3px solid var(--accent-color);
+    max-width: 400px;
+    border-radius: 15px;
     padding: 20px;
     text-align: center;
+    box-shadow: var(--box-shadow);
 }
 
 .login > .login-form-wrapper .error {
     padding: 10px;
     background-color: var(--warning-color);
     color: #fff;
-    border-radius: 20px;
+    border-radius: 10px;
 }

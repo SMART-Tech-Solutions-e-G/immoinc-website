@@ -9,7 +9,17 @@ require("Endpoints/StartEndpoint.php");
 require("Endpoints/NotFoundEndpoint.php");
 require("Endpoints/LoginEndpoint.php");
 require("Endpoints/HandleLoginEndpoint.php");
+require("Endpoints/DetailansichtEndpoint.php");
+require("Endpoints/ImprintEndpoint.php");
+require("Endpoints/SearchEndpoint.php");
+require("Endpoints/EditRealEstateAnnouncementEndpoint.php");
+require("Endpoints/HandleEditRealEstateAnnouncementEndpoint.php");
+require("Endpoints/CreateRealEstateAnnouncementEndpoint.php");
+require("Endpoints/HandleCreateRealEstateAnnouncementEndpoint.php");
+require("Endpoints/UploadRealEstateImage.php");
+require("Endpoints/DeleteRealEstateImage.php");
 require("Endpoints/AdminEndpoint.php");
+
 
 class Dispatcher
 {
@@ -41,13 +51,27 @@ class Dispatcher
                 case "/login":
                     $endpoint = new LoginEndpoint();
                     break;
+                case "/imprint":
+                    $endpoint = new ImprintEndpoint();
+                    break;
+                case "/search":
+                    $endpoint = new SearchEndpoint();
+                    break;
                 case "/":
                     $endpoint = new StartEndpoint();
                     break;
-                case "/admin/immolist":
+                case "/detailansicht":
+                    $endpoint = new DetailansichtEndpoint();
+                    break;
+                case "/real-estate-announcements/edit":
+                    $endpoint = new EditRealEstateAnnouncementEndpoint();
+                    break;
+                case "/real-estate-announcements/create":
+                    $endpoint = new CreateRealEstateAnnouncementEndpoint();
+                    break;
+                case "/real-estate-announcements":
                     $endpoint = new AdminEndpoint();
                     break;
-                
             }
         }
 
@@ -55,6 +79,18 @@ class Dispatcher
             switch ($path) {
                 case "/login":
                     $endpoint = new HandleLoginEndpoint();
+                    break;
+                case "/real-estate-announcements/edit":
+                    $endpoint = new HandleEditRealEstateAnnouncementEndpoint();
+                    break;
+                case "/real-estate-announcements/create":
+                    $endpoint = new HandleCreateRealEstateAnnouncementEndpoint();
+                    break;
+                case "/real-estate-announcements/images/upload":
+                    $endpoint = new UploadRealEstateImage();
+                    break;
+                case "/real-estate-announcements/images/delete":
+                    $endpoint = new DeleteRealEstateImage();
                     break;
             }
         }
@@ -66,5 +102,7 @@ class Dispatcher
 
         if ($endpoint instanceof HTMLEndpoint) $endpoint->_render();
         else if ($endpoint instanceof Endpoint) $endpoint->render();
+
+        $database->close();
     }
 }

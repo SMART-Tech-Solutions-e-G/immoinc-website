@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database
--- Generation Time: Nov 29, 2020 at 07:49 PM
+-- Generation Time: Dec 01, 2020 at 06:01 PM
 -- Server version: 10.5.8-MariaDB-1:10.5.8+maria~focal
 -- PHP Version: 7.4.12
 
@@ -57,11 +57,14 @@ CREATE TABLE `real_estate` (
   `address_city` varchar(45) NOT NULL,
   `living_space` decimal(13,2) NOT NULL,
   `room_count` int(11) NOT NULL,
-  `free_from` date DEFAULT NULL,
   `description` longtext DEFAULT NULL,
   `creation_date` datetime NOT NULL,
   `type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `real_estate`
+--
 
 -- --------------------------------------------------------
 
@@ -73,6 +76,7 @@ CREATE TABLE `real_estate_announcement` (
   `id` int(11) NOT NULL,
   `ownership_level` int(11) NOT NULL,
   `price` decimal(13,4) NOT NULL,
+  `free_from` date DEFAULT NULL,
   `real_estate_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -99,7 +103,7 @@ CREATE TABLE `user` (
   `firstname` varchar(64) DEFAULT NULL,
   `lastname` varchar(64) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(32) NOT NULL
+  `password` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -107,7 +111,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `password`) VALUES
-(1, 'Test', 'Test', 'test@test.com', '1234');
+(1, 'Test', 'Test', 'test@test.com', '$2y$10$AqVRrigmSdnop8iQu/YzQu1JQ64xecCxd6ZlwqBt/b2OHwkMKUjLq');
 
 --
 -- Indexes for dumped tables
@@ -162,7 +166,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `real_estate`
 --
 ALTER TABLE `real_estate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `real_estate_announcement`
@@ -214,3 +218,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
