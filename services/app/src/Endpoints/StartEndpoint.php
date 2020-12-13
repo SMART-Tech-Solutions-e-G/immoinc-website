@@ -33,7 +33,7 @@ class StartEndpoint extends HTMLEndpoint
             <div class="background">
                 <form class="form" action="/search" method="GET">
                     <div class="text-field inline box">
-                        <select class="input" id="Place" name="standort">
+                        <select class="input" id="city" name="city">
                             <?php
                             if (!empty($array_real_estate)) {
                                 foreach ($array_real_estate as $real_estate) {
@@ -47,7 +47,7 @@ class StartEndpoint extends HTMLEndpoint
                             }
                             ?>
                         </select>
-                        <label for="standort">Standort</label>
+                        <label for="city">Standort</label>
                     </div>
                     <div class="dropdown box">
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
