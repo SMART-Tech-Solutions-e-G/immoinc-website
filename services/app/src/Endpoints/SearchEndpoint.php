@@ -7,35 +7,16 @@ class SearchEndpoint extends HTMLEndpoint
 {
     public function render()
     {
-        $connection = Database::getInstance()->getConnection();
-        $default_sort_option = "creation_date";
+        $livingSpaceMin = isset($_GET["livingSpaceMin"]) ? intval($_GET["livingSpaceMin"]) : 0;
+        $livingSpaceMax = isset($_GET["livingSpaceMax"]) ? intval($_GET["livingSpaceMax"]) : 10000;
 
-        $living_space_min = isset($_GET["living_space_min"]) ? intval($_GET["living_space_min"]) : -100000;
-        $living_space_max = isset($_GET["living_space_max"]) ? intval($_GET["living_space_max"]) : 100000;
+        $selectedCity = isset($_GET["city"]) && $_GET["city"] != "" ? $_GET["city"] : null;
+        $selectedType = isset($_GET["type"]) && $_GET["type"] != "" ? $_GET["type"] : null;
+        $ownershipLevel = isset($_GET["ownershipLevel"]) && $_GET["ownershipLevel"] != "" ? intval($_GET["ownershipLevel"]) : null;
+        $sortOption = isset($_GET["sort"]) ? $_GET["sort"] : null;
 
-        $city = isset($_GET["city"]) && $_GET["city"] != "" ? $_GET["city"] : null;
-        $type = isset($_GET["type"]) && $_GET["type"] != "" ? $_GET["type"] : null;
-        $sort = isset($_GET["sort"]) ? $_GET["sort"] : $default_sort_option;
 
-        $sort_options = ["living_space", "price", "free_from", "creation_date", "room_count"];
-
-        if (!in_array($sort, $sort_options)) $sort = $default_sort_option;
-
-        $query = $connection->prepare("SELECT living_space, type, address_city, address_street, address_housenumber, address_zip_code, price, room_count, free_from FROM real_estate_announcement INNER JOIN real_estate ON real_estate_announcement.real_estate_id=real_estate.id WHERE living_space >= ? AND living_space <= ? AND (address_city = ? OR ? IS NULL) AND (type = ? OR ? IS NULL) ORDER BY $sort DESC");
-        $query->bindParam(1, $living_space_min, PDO::PARAM_INT);
-        $query->bindParam(2, $living_space_max, PDO::PARAM_INT);
-        $query->bindParam(3, $city, PDO::PARAM_STR);
-        $query->bindParam(4, $city, PDO::PARAM_STR);
-        $query->bindParam(5, $type, PDO::PARAM_STR);
-        $query->bindParam(6, $type, PDO::PARAM_STR);
-
-        $query->execute();
-
-        $real_estates = [];
-
-        while ($row = $query->fetch()) {
-            array_push($real_estates, $row);
-        }
+        $realEstateAnnouncements = Database::getInstance()->searchRealEstateAnnouncements($livingSpaceMin, $livingSpaceMax, $selectedCity, $selectedType, $ownershipLevel, $sortOption);
 ?>
         <div class="wrapper">
             <div class="slim">
@@ -46,10 +27,19 @@ class SearchEndpoint extends HTMLEndpoint
                             <div class="text-field inline">
                                 <select class="input" name="type" id="type">
                                     <option></option>
-                                    <option value="appartment" <?php if ($type == "appartment") echo "selected" ?>>Wohnung</option>
-                                    <option value="house" <?php if ($type == "house") echo "selected" ?>>Haus</option>
+                                    <option value="appartment" <?php if ($selectedType == "appartment") echo "selected" ?>>Wohnung</option>
+                                    <option value="house" <?php if ($selectedType == "house") echo "selected" ?>>Haus</option>
                                 </select>
                                 <label for="type">Immobilientyp</label>
+                            </div>
+
+                            <div class="text-field inline">
+                                <select class="input" name="ownershipLevel" id="ownershipLevel">
+                                    <option></option>
+                                    <option value="0" <?php if ($ownershipLevel === 0) echo "selected" ?>>Zum Kauf</option>
+                                    <option value="1" <?php if ($ownershipLevel === 1) echo "selected" ?>>Zur Miete</option>
+                                </select>
+                                <label for="ownershipLevel">Kauf / Miete</label>
                             </div>
 
                             <div class="text-field inline">
@@ -57,12 +47,11 @@ class SearchEndpoint extends HTMLEndpoint
                                     <option></option>
                                     <?php
 
-                                    $query = $connection->prepare("SELECT DISTINCT address_city FROM real_estate INNER JOIN real_estate_announcement ON real_estate_announcement.real_estate_id = real_estate.id");
-                                    $query->execute();
+                                    $cities = Database::getInstance()->getAllCities();
 
-                                    while ($row = $query->fetch()) {
+                                    foreach ($cities as $city) {
                                     ?>
-                                        <option <?php if ($city == $row["address_city"]) echo "selected" ?> value="<?php echo $row["address_city"] ?>"><?php echo $row["address_city"] ?></option>
+                                        <option <?php if ($city == $selectedCity) echo "selected" ?> value="<?php echo htmlspecialchars($city) ?>"><?php echo htmlspecialchars($city) ?></option>
                                     <?php
                                     }
                                     ?>
@@ -71,22 +60,22 @@ class SearchEndpoint extends HTMLEndpoint
                             </div>
 
                             <div class="text-field inline">
-                                <input class="input" id="living-space-min" type="text" name="living_space_min" value="<?php echo $living_space_min ?>" placeholder=" " required>
+                                <input class="input" id="living-space-min" type="text" name="livingSpaceMin" value="<?php echo $livingSpaceMin ?>" placeholder=" " required>
                                 <label for="living-space-min">Min. Wohnfläche (m²)</label>
                             </div>
 
                             <div class="text-field inline">
-                                <input class="input" id="living-space-max" type="text" name="living_space_max" value="<?php echo $living_space_max ?>" placeholder=" " required>
+                                <input class="input" id="living-space-max" type="text" name="livingSpaceMax" value="<?php echo $livingSpaceMax ?>" placeholder=" " required>
                                 <label for="living-space-max">Max. Wohnfläche (m²)</label>
                             </div>
 
                             <div class="text-field inline">
                                 <select class="input" name="sort" id="sort">
-                                    <option <?php if ($sort == "living_space") echo "selected" ?> value="living_space">Wohnfläche</option>
-                                    <option <?php if ($sort == "price") echo "selected" ?> value="price">Preis</option>
-                                    <option <?php if ($sort == "free_from") echo "selected" ?> value="free_from">Einzugsdatum</option>
-                                    <option <?php if ($sort == "room_count") echo "selected" ?> value="room_count">Zimmerzahl</option>
-                                    <option <?php if ($sort == "creation_date") echo "selected" ?> value="creation_date">Einstellungsdatum</option>
+                                    <option <?php if ($sortOption == "living_space") echo "selected" ?> value="living_space">Wohnfläche</option>
+                                    <option <?php if ($sortOption == "price") echo "selected" ?> value="price">Preis</option>
+                                    <option <?php if ($sortOption == "free_from") echo "selected" ?> value="free_from">Einzugsdatum</option>
+                                    <option <?php if ($sortOption == "room_count") echo "selected" ?> value="room_count">Zimmerzahl</option>
+                                    <option <?php if ($sortOption == "creation_date") echo "selected" ?> value="creation_date">Einstellungsdatum</option>
                                 </select>
                                 <label for="sort">Sortieren nach</label>
                             </div>
@@ -101,22 +90,49 @@ class SearchEndpoint extends HTMLEndpoint
                         </form>
                         <div class="real-estates-list">
                             <?php
-                            foreach ($real_estates as $real_estate) {
+                            foreach ($realEstateAnnouncements as $realEstateAnnouncement) {
+                                $realEstate = $realEstateAnnouncement->getRealEstate();
+
+                                $imageUrl = "/assets/images/logo.jpeg"; // default image if no image exist
+
+                                if (sizeof($realEstate->getImages()) > 0) $imageUrl = $realEstate->getImages()[0]->getPath();
+
                             ?>
-                                <div class="real-estate">
-                                    <div class="wrapper">
-                                        <p class="address">
-                                            <?php echo $real_estate["address_street"] ?>
-                                            <?php echo $real_estate["address_housenumber"] ?>,
-                                            <?php echo $real_estate["address_zip_code"] ?>
-                                            <?php echo $real_estate["address_city"] ?>
+                                <a href="/detailansicht?id=<?php echo $realEstateAnnouncement->getId() ?>">
+                                    <div class="real-estate">
+                                        <img class="image" src="<?php echo $imageUrl ?>">
+                                        <p class="free-from-wrapper">
+                                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px">
+                                                <path d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
+                                                <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                                            </svg>
+                                            <span class="free-from"><?php echo $realEstateAnnouncement->getFreeFrom() != null ? $realEstateAnnouncement->getFreeFrom()->format("d.m.Y") : "sofort" ?></span>
                                         </p>
-                                        <p class="room-count"><?php echo $real_estate["room_count"] ?></p>
-                                        <p class="free_from"><?php if ($real_estate["free_from"] != null) echo date("d.m.Y", strtotime($real_estate["free_from"])) ?></p>
-                                        <p class="living-space"><?php echo $real_estate["living_space"] ?> m²</p>
-                                        <p class="price"><?php echo $real_estate["price"] ?> €</p>
+                                        <div class="wrapper">
+                                            <p class="address-wrapper">
+                                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px">
+                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                                                </svg>
+                                                <span class="address">
+                                                    <?php echo htmlspecialchars($realEstate->getAddressStreet()) ?>
+                                                    <?php echo htmlspecialchars($realEstate->getAddressHousenumber()) ?>,
+                                                    <?php echo htmlspecialchars($realEstate->getAddressZipCode()) ?>
+                                                    <?php echo htmlspecialchars($realEstate->getAddressCity()) ?>
+                                                </span>
+                                            </p>
+                                            <p class="living-space-wrapper">
+                                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                                                </svg>
+                                                <span class="living-space"><?php echo number_format($realEstate->getLivingSpace()) ?> m²</span>
+                                            </p>
+                                            <p class="price"><?php echo number_format($realEstateAnnouncement->getPrice()) ?> € <?php if ($realEstateAnnouncement->getOwnershipLevel() === 1) { ?><span class="ownershipLevel">Monat</span><?php } ?></p>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             <?php
                             }
                             ?>

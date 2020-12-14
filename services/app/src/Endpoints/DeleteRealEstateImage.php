@@ -10,9 +10,9 @@ class DeleteRealEstateImage extends Endpoint
         $imageId = isset($_POST["imageId"]) ? intval($_POST["imageId"]) : 0;
 
         $realEstateImage = Database::getInstance()->getRealEstateImage($imageId);
+        $absolutePath = $_SERVER["DOCUMENT_ROOT"] . $realEstateImage->getPath();
 
-
-        unlink($_SERVER["DOCUMENT_ROOT"] . $realEstateImage->getPath());
+        if (file_exists($absolutePath)) unlink($absolutePath);
 
         Database::getInstance()->deleteRealEstateImage($imageId);
 
