@@ -9,7 +9,7 @@ class DetailansichtEndpoint extends HTMLEndpoint
     {
         $id = $_GET['id'];
         $connection = Database::getInstance()->getConnection();
-        $query = $connection->prepare("SELECT * FROM real_estate WHERE id = ?");
+        $query = $connection->prepare("SELECT address_street, address_housenumber, address_city, address_zip_code, living_space, price, description, free_from FROM real_estate INNER JOIN real_estate_announcement ON real_estate_announcement.real_estate_id = real_estate.id WHERE real_estate_announcement.id = ?");
         $query->bindParam(1, $id, PDO::PARAM_INT);
         $query->execute();
         $real_estate = $query->fetch();
@@ -18,11 +18,6 @@ class DetailansichtEndpoint extends HTMLEndpoint
         $query->bindParam(1, $id, PDO::PARAM_INT);
         $query->execute();
         $real_estate_image = $query->fetch();
-
-        $query = $connection->prepare("SELECT price FROM real_estate_announcement WHERE real_estate_id= ?");
-        $query->bindParam(1, $id, PDO::PARAM_INT);
-        $query-> execute();
-        $real_estate_announcement = $query->fetch();
 
 ?>
 
@@ -34,7 +29,7 @@ class DetailansichtEndpoint extends HTMLEndpoint
                     <img src="<?php echo $real_estate_image['path'] ?>" style="margin-left:10px;">
                 <?php } ?>
             </div>
-            
+
             <textarea readonly cols="70" rows="9" tyle="margin-right:18px;"><?php echo $real_estate['description'] ?></textarea> </select>
 
             <style>
@@ -49,21 +44,19 @@ class DetailansichtEndpoint extends HTMLEndpoint
                 <thead>
                     <tr>
                         <th>Wohnfläche</th>
-                        <th>Strasse</th>
-                        <th>Hausnummer</th>
+                        <th>Adresse</th>
                         <th>Preis</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><?php echo $real_estate['living_space'] ?></td>
-                        <td><?php echo $real_estate['address_street'] ?></td>
-                        <td><?php echo $real_estate['address_housenumber']; ?></td>
-                        <td><?php echo $real_estate_announcement['price']; ?></td>
+                        <td><?php echo $real_estate['address_street'] ?> <?php echo $real_estate['address_housenumber']; ?>, <?php echo $real_estate['address_zip_code']; ?> <?php echo $real_estate['address_city']; ?></td>
+                        <td><?php echo $real_estate['price']; ?> €</td>
                     </tr>
                 </tbody>
             </table>
-            
+
             <table>
                 <thead>
                     <tr>
@@ -72,7 +65,7 @@ class DetailansichtEndpoint extends HTMLEndpoint
                 </thead>
                 <tbody>
                     <tr>
-                        <td><?php echo $real_estate['free_from'] ?></td>
+                        <td><?php echo $real_estate['free_from'] != null ? $real_estate['free_from'] : "sofort" ?></td>
                     </tr>
                 </tbody>
             </table>

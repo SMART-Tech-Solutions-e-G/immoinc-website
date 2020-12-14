@@ -282,3 +282,9 @@ h4 {
 p.light {
     color: #555;
 }
+
+/* links */
+a {
+    color: #000;
+    text-decoration: none;
+}
