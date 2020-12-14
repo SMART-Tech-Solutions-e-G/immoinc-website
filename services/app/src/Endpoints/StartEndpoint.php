@@ -90,31 +90,34 @@ class StartEndpoint extends HTMLEndpoint
 
 
                     ?>
-                        <div>
-                            <div class="wrapper">
-                                <img class="img" src="<?php echo $real_estate_announcement->getRealEstate()->getImages()[0]->getPath() ?>" />
-                                <div class="t1"><?php
+                        <a href="/detailansicht?id=<?php echo $real_estate_announcement->getId() ?>">
 
-                                                if ($real_estate["type"] == "house") {
-                                                    echo "Einfamilienhaus";
-                                                } else {
-                                                    $roomnum = $real_estate["room_count"];
-                                                    $appstring = " Zimmer Wohnung";
+                            <div>
+                                <div class="wrapper">
+                                    <img class="img" src="<?php echo $real_estate_announcement->getRealEstate()->getImages()[0]->getPath() ?>" />
+                                    <div class="t1"><?php
 
-                                                    echo "$roomnum$appstring";
-                                                }
-                                                ?></div>
-                                <div class="real-estates-list">
-                                    <div class="person"><img class="person" src="..\assets\images\person.png" alt="Person"></div>
-                                    <div class="address">
-                                        <?php echo $real_estate["address_city"] ?>
+                                                    if ($real_estate["type"] == "house") {
+                                                        echo "Einfamilienhaus";
+                                                    } else {
+                                                        $roomnum = $real_estate["room_count"];
+                                                        $appstring = " Zimmer Wohnung";
+
+                                                        echo "$roomnum$appstring";
+                                                    }
+                                                    ?></div>
+                                    <div class="real-estates-list">
+                                        <div class="person"><img class="person" src="..\assets\images\person.png" alt="Person"></div>
+                                        <div class="address">
+                                            <?php echo $real_estate["address_city"] ?>
+                                        </div>
+                                        <div class="location"><img class="location" src="..\assets\images\location.png" alt="Person"></div>
+                                        <div class="living-space"><?php echo number_format($real_estate["living_space"]) ?> m² Wohnfläche</div>
+                                        <div class="price">€ <?php echo number_format($real_estate["price"]) ?></div>
                                     </div>
-                                    <div class="location"><img class="location" src="..\assets\images\location.png" alt="Person"></div>
-                                    <div class="living-space"><?php echo number_format($real_estate["living_space"]) ?> m² Wohnfläche</div>
-                                    <div class="price">€ <?php echo number_format($real_estate["price"]) ?></div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     <?php
                     }
                     ?>

@@ -140,6 +140,97 @@ class Database
         } else throw new Exception("Could not find real estate announcement");
     }
 
+
+    public function getAllCities()
+    {
+        $query = $this->connection->prepare("SELECT DISTINCT address_city AS city FROM real_estate INNER JOIN real_estate_announcement ON real_estate_announcement.real_estate_id = real_estate.id");
+        $query->execute();
+
+        $cities = [];
+
+        while ($row = $query->fetch()) {
+            array_push($cities, $row["city"]);
+        }
+
+        return $cities;
+    }
+
+    public function searchRealEstateAnnouncements($livingSpaceMin = 0, $livingSpaceMax = 10000, $city = null, $type = null, $ownershipLevel = null, $sortOption = "creation_date")
+    {
+        $sortOptions = ["living_space", "price", "free_from", "creation_date", "room_count"];
+        if (!in_array($sortOption, $sortOptions)) $sortOption = "creation_date";
+
+        $query = $this->connection->prepare("SELECT real_estate_announcement.id AS real_estate_announcement_id, ownership_level, ownership_level, price, free_from, real_estate.id AS real_estate_id, address_street, address_housenumber, address_zip_code, address_city, living_space, room_count, type, description, creation_date, construction_year, floor FROM real_estate_announcement INNER JOIN real_estate ON real_estate.id = real_estate_announcement.real_estate_id LEFT JOIN house ON real_estate.id = house.real_estate_id LEFT JOIN appartment ON real_estate.id = appartment.real_estate_id WHERE living_space >= ? AND living_space <= ? AND (address_city = ? OR ? IS NULL) AND (type = ? OR ? IS NULL) AND (ownership_level = ? OR ? IS NULL) ORDER BY $sortOption DESC");
+        $query->bindParam(1, $livingSpaceMin, PDO::PARAM_INT);
+        $query->bindParam(2, $livingSpaceMax, PDO::PARAM_INT);
+        $query->bindParam(3, $city, PDO::PARAM_STR);
+        $query->bindParam(4, $city, PDO::PARAM_STR);
+        $query->bindParam(5, $type, PDO::PARAM_STR);
+        $query->bindParam(6, $type, PDO::PARAM_STR);
+        $query->bindParam(7, $ownershipLevel, PDO::PARAM_INT);
+        $query->bindParam(8, $ownershipLevel, PDO::PARAM_INT);
+        $query->execute();
+
+        $realEstateAnnouncements = [];
+
+        while ($row = $query->fetch()) {
+            $realEstateAnnouncement = new RealEstateAnnouncment();
+            $realEstateAnnouncement->setId($row["real_estate_announcement_id"]);
+            $realEstateAnnouncement->setOwnershipLevel(intval($row["ownership_level"]));
+            $realEstateAnnouncement->setPrice(doubleval($row["price"]));
+            if ($row["free_from"] != null) $realEstateAnnouncement->setFreeFrom(new DateTime($row["free_from"]));
+
+            $realEstate = null;
+
+            switch ($row["type"]) {
+                case "house":
+                    $realEstate = new House();
+                    $realEstate->setConstructionYear($row["construction_year"]);
+                    break;
+                case "appartment":
+                    $realEstate = new Appartment();
+                    $realEstate->setFloor($row["floor"]);
+                    break;
+                default:
+                    $realEstate = new RealEstate();
+            }
+
+            $realEstate->setId($row["real_estate_id"]);
+            $realEstate->setAddressStreet($row["address_street"]);
+            $realEstate->setAddressHousenumber($row["address_housenumber"]);
+            $realEstate->setAddressZipCode($row["address_zip_code"]);
+            $realEstate->setAddressCity($row["address_city"]);
+            $realEstate->setLivingSpace($row["living_space"]);
+            $realEstate->setRoomCount($row["room_count"]);
+            $realEstate->setDescription($row["description"]);
+            $realEstate->setCreationDate(new DateTime($row["creation_date"]));
+
+            $realEstateAnnouncement->setRealEstate($realEstate);
+
+            array_push($realEstateAnnouncements, $realEstateAnnouncement);
+        }
+
+        foreach ($realEstateAnnouncements as $realEstateAnnouncement) {
+            $realEstateId = $realEstateAnnouncement->getRealEstate()->getId();
+            $query = $this->connection->prepare("SELECT id, path FROM real_estate_image WHERE real_estate_id = :id");
+            $query->bindParam(":id", $realEstateId, PDO::PARAM_INT);
+            $query->execute();
+
+            $images = [];
+
+            while ($row = $query->fetch()) {
+                $image = new RealEstateImage();
+                $image->setId($row["id"]);
+                $image->setPath($row["path"]);
+                array_push($images, $image);
+            }
+
+            $realEstateAnnouncement->getRealEstate()->setImages($images);
+        }
+
+        return $realEstateAnnouncements;
+    }
+
     public function createRealEstateAnnouncement($realEstateAnnouncement)
     {
         //$this->connection->beginTransaction();

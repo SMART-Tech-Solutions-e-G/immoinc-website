@@ -75,7 +75,7 @@ class AdminEndpoint extends HTMLEndpoint
                     </table>
                     <a href="/real-estate-announcements/create">
                         <div class="button-black">
-                            <input value="Immobilie erstellen">
+                            <input type="button" value="Immobilie erstellen">
                         </div>
                     </a>
                 </div>
