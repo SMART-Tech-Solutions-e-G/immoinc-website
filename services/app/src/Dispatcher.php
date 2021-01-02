@@ -44,9 +44,9 @@ class Dispatcher
                 case "/":
                     $endpoint = new StartEndpoint();
                     break;
-                case "/admin/immolist":
-                    $endpoint = new AdminEndpoint();
-                    break;
+                    case "/real-estate-announcements":
+                        $endpoint = new AdminEndpoint();
+                        break;
                 
             }
         }
@@ -55,6 +55,9 @@ class Dispatcher
             switch ($path) {
                 case "/login":
                     $endpoint = new HandleLoginEndpoint();
+                    break;
+                case "/real-estate-announcements":
+                     $endpoint = new AdminEndpoint();
                     break;
             }
         }
