@@ -1,0 +1,95 @@
+.search > .real-estates-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 400px));
+    gap: 25px;
+}
+
+.search > .real-estates-list .real-estate {
+    box-shadow: var(--box-shadow);
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.search > .real-estates-list .real-estate > .image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: #eee;
+}
+
+.search > .real-estates-list .real-estate > .wrapper {
+    padding: 0px 20px;
+}
+
+.search > .real-estates-list .real-estate > .wrapper,
+.search > .real-estates-list .real-estate > .free-from-wrapper {
+    vertical-align: middle;
+}
+
+.search > .real-estates-list .real-estate > .free-from-wrapper {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    position: absolute;
+    top: 0px;
+    right: 12px;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 10px;
+}
+
+.search > .real-estates-list .real-estate > .free-from-wrapper > .icon {
+    fill: #fff;
+}
+
+.search > .real-estates-list .real-estate .icon {
+    width: 22px;
+    height: 22px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.search > .real-estates-list .real-estate > .wrapper > .address-wrapper > .address {
+    font-weight: bold;
+}
+
+.search > .real-estates-list .real-estate > .wrapper > .address-wrapper > .address,
+.search > .real-estates-list .real-estate > .free-from-wrapper > .free-from,
+.search > .real-estates-list .real-estate > .wrapper > .living-space-wrapper > .living-space {
+    vertical-align: middle;
+}
+
+.search > .real-estates-list .real-estate > .wrapper > .price {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.search > .real-estates-list .real-estate > .wrapper > .price > .ownershipLevel::before {
+    content: "/";
+    margin-right: 5px;
+}
+
+.search > .real-estates-list .real-estate > .wrapper > .price > .ownershipLevel {
+    color: #333;
+    font-weight: lighter;
+    font-size: 16px;
+}
+
+.search > .filters .button {
+    background-color: rgb(var(--accent-color));
+    display: inline-block;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.search > .filters .button > .name {
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.search > .filters .button > .icon {
+    vertical-align: middle;
+}

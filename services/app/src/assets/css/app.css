@@ -1,30 +1,43 @@
 :root {
-    --accent-color: #ffbfbf;
-    --content-min-height: calc(100vh - 100px);
-    --warning-color: #fd4e4e;
+    --accent-color: 230, 125, 125;
+    --header-height: 80px;
+    --content-min-height: calc(100vh - var(--header-height));
+    --warning-color: rgba(255, 60, 60, 0.927);
+    --box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    --dark-background: rgb(0, 0, 0);
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+        "Droid Sans", "Helvetica Neue", sans-serif;
     margin: 0px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 900;
 }
 
 .header {
     width: 100%;
-    height: 80px;
-    background-color: var(--accent-color);
+    height: var(--header-height);
+    background-color: #fff;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    position: relative;
 }
 
 .header .logo {
     padding-top: 18px;
     margin-left: 20px;
-    height: 80px;
     display: inline-block;
     vertical-align: middle;
 }
 
-.header .logo > img {
+.header .logo > svg {
+    fill: rgb(var(--accent-color));
     width: 70px;
     vertical-align: middle;
 }
@@ -36,31 +49,156 @@ body {
     margin-left: 10px;
 }
 
-.header > .links {
-    margin-left: 50px;
-    display: inline-block;
-    height: 80px;
-    vertical-align: middle;
+.header > .links-wrapper {
+    position: absolute;
+    left: 180px;
+    top: 0px;
+    right: 0px;
 }
 
-.header > .links > .link {
-    margin: auto;
+.header > .links-wrapper > .links {
+    margin-left: 50px;
+    display: flex;
+    flex-direction: row;
+    line-height: var(--header-height);
+    height: var(--header-height);
+    vertical-align: middle;
+    max-width: 800px;
+}
+
+.header > .links-wrapper > .links > .link > .name {
+    padding: 10px 30px 10px 30px;
+    border-radius: 8px;
+}
+
+.header > .links-wrapper > .links > .link.colorful > .name {
+    background-color: rgba(var(--accent-color), 1);
+    color: #fff;
+}
+
+.header > .links-wrapper > .links > .link {
+    flex: 1;
+    text-align: center;
+}
+
+.header > .links-wrapper > .links > .link > .name {
+    transition: 0.3s color, 0.3s background-color;
+}
+
+.header > .links-wrapper > .links > .link:hover > .name {
+    color: rgb(var(--accent-color));
+    background-color: rgba(var(--accent-color), 0.1);
 }
 
 .content {
-    margin: 10px;
     min-height: var(--content-min-height);
+    width: 100%;
+}
+
+.content > .wrapper {
+    background-color: #ececed;
+}
+
+.content > .wrapper > .slim > .slim-wrapper {
+    padding: 14px 40px 14px 40px;
+    word-wrap: break-word;
+}
+
+.content > .wrapper > .slim {
+    width: 100%;
+    min-height: var(--content-min-height);
+    max-width: 1000px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    margin-top: 0px;
 }
 
 .footer {
-    background-color: var(--accent-color);
-    height: 200px;
+    background-color: var(--dark-background);
+    color: #fff;
+}
+
+.footer > .wrapper {
+    text-align: center;
+    padding: 40px 30px 40px 30px;
+}
+
+.footer > .wrapper > .seperator-line {
+    margin-left: 50%;
+    transform: translateX(-50%);
+    max-width: 500px;
+    width: 100%;
+    background-color: #aaa;
+    height: 1px;
+}
+
+.footer a {
+    color: #fff;
+    font-weight: bold;
+}
+
+.header a {
+    color: #000;
 }
 
 .footer a,
 .header a {
     text-decoration: none;
-    color: #000;
+}
+
+@media (min-width: 801px) {
+    .header > .menu-icon {
+        display: none;
+    }
+}
+
+@media (max-width: 800px) {
+    .header > .links-wrapper.hidden {
+        transform: translateX(100%);
+        transition: 0.3s transform ease-in;
+    }
+
+    .header > .links-wrapper {
+        position: fixed;
+        left: 0px;
+        background-color: #fdfdfd;
+        height: 100%;
+        width: 100%;
+        z-index: 10;
+        transition: 0.4s transform ease-out;
+        box-shadow: var(--box-shadow);
+    }
+
+    .header > .links-wrapper > .links {
+        display: block;
+        margin-left: 0px;
+    }
+
+    .header > .links-wrapper > .links > .link {
+        display: block;
+        width: 100%;
+    }
+
+    .header > .menu-icon {
+        display: inline-block;
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        cursor: pointer;
+        z-index: 100;
+    }
+    .header > .menu-icon > svg {
+        padding: 8px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .header > .menu-icon:hover > svg {
+        fill: rgb(var(--accent-color));
+        background-color: rgba(var(--accent-color), 0.1);
+        border-radius: 40px;
+    }
 }
 
 /* fields */
@@ -68,11 +206,20 @@ body {
 .text-field {
     border: 2px solid #ccc;
     border-radius: 5px;
-    margin: 5px;
+    margin: 10px 3px 10px 3px;
     position: relative;
 }
 
-.text-field > input {
+.text-field.inline {
+    display: inline-block;
+}
+
+.text-field.inline > .input {
+    width: auto;
+}
+
+.text-field > .input,
+.text-field > .input {
     margin-top: 15px;
     width: 100%;
     border: none;
@@ -81,6 +228,8 @@ body {
     padding: 5px;
     font-size: 16px;
     padding-left: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+        "Helvetica Neue", sans-serif;
 }
 
 .text-field > label {
@@ -92,12 +241,20 @@ body {
     transition: 0.2s transform;
 }
 
-.text-field > input:focus ~ label,
-.text-field > input:not(:placeholder-shown):invalid ~ label,
-.text-field > input:valid ~ label {
+.text-field > .input:focus ~ label,
+.text-field > .input:not(:placeholder-shown):invalid ~ label,
+.text-field > .input:valid ~ label {
     transform-origin: left;
     transform: translateY(-10px) scale(0.75);
     color: #444;
+}
+
+.text-field:focus-within {
+    border: 2px solid rgb(var(--accent-color));
+}
+
+.text-field > .input:disabled {
+    opacity: 0;
 }
 
 /* buttons */
@@ -106,15 +263,28 @@ body {
     cursor: pointer;
     background-color: #000;
     display: inline-block;
-    min-width: 300px;
-    height: 50px;
-    border-radius: 50px;
+    width: 100%;
+    max-width: 300px;
+    height: 40px;
+    border-radius: 5px;
     text-align: center;
     border: none;
     color: #fff;
-    font-size: 18px;
+    font-size: 13px;
     font-weight: bold;
     margin: auto auto;
-    line-height: 50px;
+    line-height: 40px;
     outline: none;
+    user-select: none;
+}
+
+/* light text */
+p.light {
+    color: #555;
+}
+
+/* links */
+a {
+    color: #000;
+    text-decoration: none;
 }
