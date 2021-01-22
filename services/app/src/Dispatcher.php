@@ -80,6 +80,9 @@ class Dispatcher
                 case "/login":
                     $endpoint = new HandleLoginEndpoint();
                     break;
+                case "/real-estate-announcements":
+                    $endpoint = new AdminEndpoint();
+                    break;
                 case "/real-estate-announcements/edit":
                     $endpoint = new HandleEditRealEstateAnnouncementEndpoint();
                     break;
